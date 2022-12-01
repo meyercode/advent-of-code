@@ -54,7 +54,10 @@ fn main() {
         });
 
         let max_value = elves.iter().max().unwrap().calorie_count;
-        println!("Elf with most calories: {}", max_value)
+        println!("Elf with most calories: {}", max_value);
+        elves.sort_by(|a, b| b.calorie_count.cmp(&a.calorie_count));
+        let top_three = elves[0].calorie_count + elves[1].calorie_count + elves[2].calorie_count;
+        println!("Top three: {}", top_three);
     }
 }
 
