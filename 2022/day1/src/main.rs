@@ -28,7 +28,7 @@ impl PartialEq for ElfInventory {
 }
 
 fn main() {
-    let file_path = "./inputs";
+    let file_path = "./input";
 
     let mut elves: Vec<ElfInventory> = Vec::new();
 
