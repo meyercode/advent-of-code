@@ -17,30 +17,33 @@ func main() {
     scanner := bufio.NewScanner(file)
 
     repeatedItemsSum := 0
-    count := 0
+    groupCount := 0
+    group := make(map[int]map[rune]bool)
+    groupMap := make(map[rune]int)
 
     for scanner.Scan() {
         rucksack := scanner.Text()
-        compartmentA := rucksack[:len(rucksack)/2]
-        compartmentB := rucksack[len(rucksack)/2:]
-        var cmpmtAMap = make(map[rune]bool)
-        for _, item := range compartmentA {
-            cmpmtAMap[item] = true
+        group[groupCount] = make(map[rune]bool)
+        for _, item := range rucksack {
+            group[groupCount][item] = true
         }
-        for _, item := range compartmentB {
-            _, exists := cmpmtAMap[item]
-            if(exists) {
-                fmt.Println(item, "already exists in other compartment! Prio is", calcPrio(item))
-                repeatedItemsSum += calcPrio(item)
-                break
+        groupCount++
+        if(groupCount == 3) {
+            for _, m := range group {
+                for item := range m {
+                    groupMap[item] += 1
+                    if (groupMap[item] == 3) {
+                        repeatedItemsSum += calcPrio(item)
+                    }
+                }
             }
+            groupMap = make(map[rune]int)
+            groupCount = 0
         }
-        count++
     }
     // int('a')-96
     // int('A')-38
     //fmt.Println(int('L'), "rune", rune('L'), "prio:", calcPrio('L'))
-    fmt.Println(count)
     fmt.Println(repeatedItemsSum)
 
     if err := scanner.Err(); err != nil {
