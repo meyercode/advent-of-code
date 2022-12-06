@@ -15,20 +15,26 @@ stacks = [
 
 instructions = [lines[i] for i in range(10, len(lines))]
 
-print(instructions[0])
-
 for instruction in instructions:
+    for stack in stacks:
+        print(stack)
     instruction = instruction.strip("\\n")
     values = instruction.split(" ")
-
+    
+    src = stacks[int(values[3])-1]
+    dest = stacks[int(values[5])-1]
+    tempStack = []
     for i in range(0, int(values[1])):
-        src = stacks[int(values[3])-1]
-        dest = stacks[int(values[5])-1]
-        crate = src.pop()
-        dest.append(crate)
+        if len(src) > 0:
+            crate = src.pop()
+            tempStack.append(crate)
+    print(f"{instruction}: {tempStack}")
+    while len(tempStack) > 0:
+        dest.append(tempStack.pop())
 
 print(stacks)
 top = ""
 for stack in stacks:
-    top += stack[len(stack)-1]
+    if len(stack) > 0:
+        top += stack[len(stack)-1]
 print(top)
