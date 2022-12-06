@@ -22,7 +22,7 @@ for line in lines:
     bMinSect = elfB[0]
     bMaxSect = elfB[len(elfB)-1]
 
-    if aMinSect <= bMinSect and aMaxSect >= bMaxSect or bMinSect <= aMinSect and bMaxSect >= aMaxSect:
+    if aMinSect <= bMinSect and aMaxSect >= bMinSect or bMinSect <= aMinSect and bMaxSect >= aMinSect:
         intersectCount += 1
 
 print(intersectCount)
