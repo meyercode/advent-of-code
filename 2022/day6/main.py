@@ -2,7 +2,7 @@ f = open("./input","r")
 datastream = [*f.readlines()[0]]
 
 windowMin = 0
-windowMax = 3
+windowMax = 13
 
 startPacketFound = False
 
@@ -15,7 +15,7 @@ while not startPacketFound:
             break
         else:
             window[datastream[i]] = True
-        if len(window) == 4:
+        if len(window) == 14:
             startPacketFound = True
 
 print(windowMax+1)
