@@ -26,10 +26,12 @@ for line in lines:
 
 print("Out of instructions. Current dir: " + str(fullPath))
 
-sum = 0
-for name, size in dirs.items():
-    if size <= 100000:
-        print(name + ":   \t" + str(size))
-        sum += size
+smallestRequired = "/"
+totalFree = 70000000 - dirs["/"]
 
-print("Total size: " + str(sum))
+for dir, size in dirs.items():
+    if dirs[dir] + totalFree >= 30000000:
+        if dirs[dir] < dirs[smallestRequired]:
+            smallestRequired = dir
+
+print("Smallest dir that can be deleted: " + str(dirs[smallestRequired]))
