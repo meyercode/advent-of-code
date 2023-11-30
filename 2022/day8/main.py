@@ -14,36 +14,49 @@ for line in lines:
     trees = [*i]
     treeGrid.append([int(x) for x in trees])
 
-noOfVisible = 0
+def scenic_score_up(tree):
+    score = 0
+    for row in range(tree.row, -1, -1):
+        if (row != tree.row):
+            score += 1
+            if treeGrid[row][tree.col] > tree.height:
+                return score
+    return score
 
-def is_visible_up(tree):
-    for row in range(tree.row):
-        if treeGrid[row][tree.col] >= tree.height and row != tree.row:
-            return False
-    return True
-
-def is_visible_down(tree):
+def scenic_score_down(tree):
+    score = 0
     for row in range(tree.row, len(treeGrid)):
-        if treeGrid[row][tree.col] >= tree.height and row != tree.row:
-            return False
-    return True
+        if (row != tree.row):
+            score += 1
+            if treeGrid[row][tree.col] > tree.height:
+                return score
+    return score
 
-def is_visible_right(tree):
+def scenic_score_right(tree):
+    score = 0
     for col in range(tree.col, len(treeGrid[tree.row])):
-        if treeGrid[tree.row][col] >= tree.height and col != tree.col:
-            return False
-    return True
+        if (col != tree.col):
+            score += 1
+            if treeGrid[tree.row][col] > tree.height:
+                return score
+    return score
 
-def is_visible_left(tree):
-    for col in range(tree.col):
-        if treeGrid[tree.row][col] >= tree.height and col != tree.col:
-            return False
-    return True
+def scenic_score_left(tree):
+    score = 0
+    for col in range(tree.col, -1, -1):
+        if (col != tree.col):
+            score += 1
+            if treeGrid[tree.row][col] > tree.height:
+                return score
+    return score
+
+maxScore = 0
 
 for i in range(len(treeGrid)):
     for j in range(len(treeGrid[i])):
         tree = Tree(i, j, treeGrid[i][j])
-        if is_visible_up(tree) or is_visible_down(tree) or is_visible_right(tree) or is_visible_left(tree):
-            noOfVisible += 1
+        score = scenic_score_up(tree) * scenic_score_down(tree) * scenic_score_right(tree) * scenic_score_left(tree)
+        if score > maxScore:
+            maxScore = score
 
-print(noOfVisible)   
+print(maxScore)   
