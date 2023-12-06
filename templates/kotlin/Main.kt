@@ -2,11 +2,11 @@ import java.io.File
 
 fun main(args: Array<String>) {
     val input = File("aoc2023/src/input.txt").readLines()
-    println("Solution A: ${SolutionA().solveA(input)}")
-    println("Solution B: ${SolutionB().solveB(input)}")
+    println("Solution A: ${Day.solveA(input)}")
+    println("Solution B: ${Day.solveB(input)}")
 }
 
-class Day {
+object Day {
     fun solveA(input: List<String>): Unit {
         return
     }
