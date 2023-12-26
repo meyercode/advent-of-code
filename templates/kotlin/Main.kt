@@ -7,11 +7,11 @@ fun main(args: Array<String>) {
 }
 
 object Day {
-    fun solveA(input: List<String>): Unit {
-        return
+    fun solveA(input: List<String>): Long {
+        return 0
     }
 
-    fun solveB(input: List<String>): Unit {
-        return
+    fun solveB(input: List<String>): Long {
+        return 0
     }
 }
