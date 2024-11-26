@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"maps"
 	"os"
 	"sort"
 	"strconv"
@@ -17,7 +16,7 @@ func main() {
 
 	input := string(b)
 
-	fmt.Printf("Solve A: %d\n", SolveA(input))
+	fmt.Printf("Solve B: %d\n", SolveB(input))
 }
 
 type ByHand []string
@@ -74,7 +73,7 @@ func ReadSuit(b byte) int {
 	case 'Q':
 		suit = int(Q)
 	case 'J':
-		suit = int(J)
+		suit = 1
 	case 'T':
 		suit = int(T)
 	default:
@@ -103,40 +102,61 @@ func readHand(hand string) int {
 	}
 	t := HighCard
 
-	for k := range maps.Keys(valueMap) {
-		switch valueMap[k] {
-		case 5:
-			t = FiveOfAKind
-		case 4:
-			t = FourOfAKind
-		case 3:
-			if t == OnePair {
-				t = FullHouse
-			} else {
-				t = ThreeOfAKind
+	var keys []rune
+	for k, _ := range valueMap {
+		keys = append(keys, k)
+	}
+	mvs := keys[0]
+	if mvs == 'J' && len(keys) > 1 {
+		mvs = keys[1]
+	}
+	for _, k := range keys {
+		if valueMap[k] > valueMap[mvs] && k != 'J' {
+			mvs = k
+		}
+	}
+	// add joker to highest suit
+	if mvs != 'J' {
+		valueMap[mvs] += valueMap['J']
+	}
+	if valueMap[mvs] == 5 {
+		t = FiveOfAKind
+	} else if valueMap[mvs] == 4 {
+		t = FourOfAKind
+	} else {
+		for _, k := range keys {
+			if k != 'J' {
+				switch valueMap[k] {
+				case 3:
+					if t == OnePair {
+						t = FullHouse
+					} else {
+						t = ThreeOfAKind
+					}
+				case 2:
+					if t == ThreeOfAKind {
+						t = FullHouse
+					} else if t == OnePair {
+						t = TwoPairs
+					} else {
+						t = OnePair
+					}
+				default:
+				}
 			}
-		case 2:
-			if t == ThreeOfAKind {
-				t = FullHouse
-			} else if t == OnePair {
-				t = TwoPairs
-			} else {
-				t = OnePair
-			}
-		default:
 		}
 	}
 
 	return int(t)
 }
 
-func SolveA(input string) int {
+func SolveB(input string) int {
 	hands := strings.Split(input, "\n")
 	//fmt.Printf("%v\n", hands)
 
 	sort.Sort(ByHand(hands))
 
-	//fmt.Printf("%v\n", hands)
+	fmt.Printf("%v\n", hands)
 
 	score := 0
 	for i, hand := range hands {
@@ -148,7 +168,6 @@ func SolveA(input string) int {
 			panic(err)
 		}
 
-		fmt.Printf("hand %s has bid %d and rank %d\n", hand, bid, i+1)
 		score += (i + 1) * bid
 	}
 
