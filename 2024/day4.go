@@ -14,7 +14,8 @@ func main() {
 	}
 	input := string(b)
 
-	fmt.Println("Solve A:", SolveA(input))
+	//fmt.Println("Solve A:", SolveA(input))
+	fmt.Println("Solve B:", SolveB(input))
 }
 
 func SolveA(input string) int {
@@ -74,6 +75,41 @@ func SolveA(input string) int {
 				if j > 2 {
 					// left
 					if lines[i][j-1] == 'M' && lines[i][j-2] == 'A' && lines[i][j-3] == 'S' {
+						sum++
+					}
+				}
+			}
+		}
+	}
+
+	return sum
+}
+
+func SolveB(input string) int {
+	sum := 0
+
+	lines := strings.Split(strings.TrimSpace(input), "\n")
+
+	// for each A
+	//	check if MMSS in any combination
+	//		inc
+	for i := 0; i < len(lines); i++ {
+		for j := 0; j < len(lines[i]); j++ {
+			if i > 0 && j > 0 && i < len(lines)-1 && j < len(lines[i])-1 {
+				if lines[i][j] == 'A' {
+					ms := make(map[byte]int)
+					ul := lines[i-1][j-1]
+					ms[ul]++
+					ur := lines[i-1][j+1]
+					ms[ur]++
+					dr := lines[i+1][j+1]
+					ms[dr]++
+					dl := lines[i+1][j-1]
+					ms[dl]++
+					if ms['M'] == 2 && ms['S'] == 2 {
+						if (ul == 'M' && dr == 'M') || (ul == 'S' && dr == 'S') { // MM and SS are not adjacent
+							continue
+						}
 						sum++
 					}
 				}
